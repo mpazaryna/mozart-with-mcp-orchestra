@@ -2,10 +2,13 @@
 
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
 
-CLI = "/Users/mpaz/workspace/mozart-with-mcp-orchestra/.venv/bin/currency-converter"
+# Resolve the CLI entry point from the same bin directory as the running Python,
+# so this works in any virtual environment without hard-coding a path.
+CLI = str(Path(sys.executable).parent / "currency-converter")
 
 
 def _run(*args: str) -> subprocess.CompletedProcess[str]:
