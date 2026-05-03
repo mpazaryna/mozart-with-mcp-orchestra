@@ -253,3 +253,73 @@ uv run pytest -m evals     # eval suite (real model, slow)
 ```
 
 Unit tests mock the Anthropic API. Gate enforcement, file I/O, and state management are fully testable without network access.
+
+## Usage
+
+### currency-converter CLI
+
+The currency converter is the proof-of-concept application built by the mcp-orchestra + Mozart pipeline. It converts a monetary amount between supported currencies and prints the result to stdout.
+
+**Requirements:** Python 3.12+
+
+**Install:**
+
+```bash
+pip install -e ".[dev]"
+```
+
+**Command:**
+
+```bash
+currency-converter <amount> <from_currency> <to_currency>
+```
+
+**Examples:**
+
+```bash
+currency-converter 100 USD EUR
+# 92.00 EUR
+
+currency-converter 50 EUR GBP
+# 43.00 GBP
+
+currency-converter 200 USD GBP
+# 158.00 GBP
+```
+
+**Supported currencies:**
+
+| Code | Currency |
+|------|----------|
+| USD  | US Dollar |
+| EUR  | Euro |
+| GBP  | British Pound |
+
+**Exchange rates (static):**
+
+| Pair | Rate |
+|------|------|
+| USD → EUR | 0.92 |
+| EUR → GBP | 0.86 |
+| USD → GBP | 0.79 |
+
+**Error handling:**
+
+- Unknown currency code: prints a clear error message and exits non-zero
+- Non-numeric amount: prints a clear error message and exits non-zero
+
+**Run the test suite:**
+
+```bash
+pip install -e ".[dev]"
+pytest
+```
+
+82 tests across unit, integration, and e2e layers. All tests were written before the production code they cover.
+
+---
+
+## Brief
+
+**Vision:** A currency converter CLI in Python, built strictly TDD, as a complete end-to-end run of the mcp-orchestra + Mozart pipeline — proving gate enforcement, Gherkin-to-test traceability, and clean handoff from planning to execution.
+**Audience:** Developers evaluating the mcp-orchestra + Mozart workflow.
